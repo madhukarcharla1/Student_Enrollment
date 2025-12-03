@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private loggedIn = new BehaviorSubject<boolean>(false);
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
+  }
+
+  constructor(private router: Router) {}
+
+  login(): boolean {
+    // Mock login is always successful
+    this.loggedIn.next(true);
+    this.router.navigate(['/student']);
+    return true;
+  }
+
+  logout() {
+    this.loggedIn.next(false);
+    this.router.navigate(['/auth/login']);
+  }
+}

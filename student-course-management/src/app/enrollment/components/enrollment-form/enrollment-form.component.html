@@ -1,0 +1,43 @@
+<div class="form-container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ isEditMode ? 'Edit Enrollment' : 'Add Enrollment' }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="enrollmentForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Student</mat-label>
+          <mat-select formControlName="studentId">
+            <mat-option *ngFor="let student of students$ | async" [value]="student.id">
+              {{ student.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="enrollmentForm.get('studentId')?.hasError('required')">
+            Student is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Course</mat-label>
+          <mat-select formControlName="courseId">
+            <mat-option *ngFor="let course of courses$ | async" [value]="course.id">
+              {{ course.name }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="enrollmentForm.get('courseId')?.hasError('required')">
+            Course is required
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-label>Grade</mat-label>
+          <input matInput formControlName="grade" type="text" placeholder="Enter grade">
+          <mat-error *ngIf="enrollmentForm.get('grade')?.hasError('required')">
+            Grade is required
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!enrollmentForm.valid">
+          {{ isEditMode ? 'Update' : 'Add' }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
